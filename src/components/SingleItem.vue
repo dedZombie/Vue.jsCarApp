@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="col s12 m7">
-            <h2 class="header">{{ car_name}} {{car_model}}</h2>
+            <h2 class="header"></h2>
             <div class="card horizontal">
-                <div class="card-image" style="overflow:hidden;height:300px;">
+                <div class="card-image">
                     <li v-for="(image, index) in images" v-bind:key="image.index" class="item">
                         <img v-lazy="image.src" @click="openGallery(index)">
                     </li>
@@ -28,7 +28,7 @@
 <script>
 import Lightbox from 'vue-image-lightbox'
 import images from '../images'
-
+import db from './firebaseInit'
 require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 
 export default {
@@ -39,12 +39,29 @@ export default {
     data () {
         return {
             images,
+            items: {}
         }   
     },
     methods: {
         openGallery(index){
             this.$refs.lightbox.showImage(index)
-        }
+        }        
+    },
+    created() {
+        var vehiclesRef = db.collection("vehicles").doc(this.$route.params.id)
+        console.log("Document ref: ", vehiclesRef)
+        vehiclesRef.get().then(function(doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data())
+                this.items = doc.data()
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error)
+        });
+
     }
 }
 

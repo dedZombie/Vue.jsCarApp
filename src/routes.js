@@ -1,11 +1,11 @@
 import SingleItem from './components/SingleItem'
-import Dashboard from './components/Dashboard'
+import HomePage from './components/HomePage'
 
 export default [
     {
         path: '/', 
-        name: 'dashboard',
-        component: Dashboard
+        name: 'homepage',
+        component: HomePage
     },
     {
         path: '/:car_id', 

@@ -7,7 +7,7 @@
 
 <script>
 import Navbar from './components/Navbar'
-import Dashboard from './components/Dashboard'
+import HomePage from './components/HomePage'
 
 export default {
   name: 'app',

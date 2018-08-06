@@ -1,23 +1,22 @@
 <template>
-    <div class="col s12 m6 l3">
-        <div class="card hoverable">
-            <div class="card-image">
-                <img v-bind:src="photos" class="responsive-img">
-                <!-- <span class="card-title red-text accent">Renaul Scenic</span> -->
-                <!-- <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a> -->
-            </div>
-            <div class="card-content grey lighten-2">
-                <ul class="collection">
-                    <li v-for="info in information" :key="info.id" class="collection-item grey darken-1 white-text"> 
+    <div class="row">
+        <div class="container">
+            <h1 class="indigo-text text-lighten-2">{{ msg }}</h1>
+            <div class="card hoverable col s12 m6 l3" v-for="info in information.slice(0,4)" :key="info.id" >
+                <div class="card-content grey lighten-2">
+                    <div class="card-image">
+                        <img :src="info.image_src" alt="" style="width:100%; height: 100px;">
+                    </div>
+                    <ul class="collection">
                         {{ info.name }} <br>
                         {{ info.model }} <br>
                         {{ info.year }} <br>
                         {{ info.price }} <span>€</span>
-                        <router-link class="btn-floating waves-effect waves-light red" v-bind:to="{name:'single-item', params:{car_id: info.car_id}}">
-                            <i class="material-icons">drive_eta</i>
-                        </router-link>
-                    </li>
-                </ul>
+                    </ul>
+                    <router-link class="btn-floating waves-effect waves-light red" v-bind:to="{name:'single-item', params:{car_id: info.id}}">
+                        <i class="material-icons">drive_eta</i>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -25,18 +24,17 @@
 
 <script>
 import db from './firebaseInit'
-import images from '../images'
 
 export default {
     data () {
         return {
             information: [],
-            images,
-            photos: images[0].src
+            msg: 'Most recently addded'
         }
+       
     },
     methods: {
-
+        
     },
     created() {
         db.collection('vehicles').orderBy('car_id').get().then(querySnapshot => {
